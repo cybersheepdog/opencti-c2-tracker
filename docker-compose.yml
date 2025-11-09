@@ -1,0 +1,7 @@
+services:
+  connector-c2tracker:
+    image: cybersheepdog/opencti-c2-tracker:latest
+    environment:
+      - OPENCTI_URL={(OPENCTI_BASE_URL}
+      - OPENCTI_C2TRACKER_TOKEN=${OPENCTI_C2TRACKER_TOKEN}
+    restart: always
