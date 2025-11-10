@@ -21,21 +21,9 @@ warnings.filterwarnings('ignore')
 ipv4_regex = "^(\d{3}\.?){4}$"
 ipv6_regex = "^([a-fA-f0-9]{0,4}:?){8}$"
 
-# Get TLP ID's
-TLP_WHITE_CTI = opencti_api_client.marking_definition.read(id=TLP_WHITE["id"])
-SELECTED_TLP = TLP_WHITE_CTI
-
-#TLP_GREEN_CTI = opencti_api_client.marking_definition.read(id=TLP_GREEN["id"])
-#SELECTED_TLP = TLP_GREEN_CTI
-
-#TLP_AMBER_CTI = opencti_api_client.marking_definition.read(id=TLP_AMBER["id"])
-#SELECTED_TLP = TLP_AMBER_CTI
-
-#TLP_RED_CTI = opencti_api_client.marking_definition.read(id=TLP_RED["id"])
-#SELECTED_TLP = TLP_RED_CTI
-
-def add_c2tracker_ips(current_c2_tracker_ips):
+def add_c2tracker_ips(current_c2_tracker_ips, SELECTED_TLP):
     ip_count = 0
+    opencti_labels = get_labels()
     for item in current_c2_tracker_ips:
         for c2, ips in item.items():
             created_labels = []
@@ -60,15 +48,15 @@ def add_c2tracker_ips(current_c2_tracker_ips):
                 l = l.lower()
                 matches = [item_label for item_label in opencti_labels if l in item_label.values()]
                 if len(matches) == 0:
-                random_color = generate_random_color()
-                label = opencti_api_client.label.create(
-                    value=l,
-                    color=random_color,
-                    )
-                created_labels.append(label)
-            else:
-                label = matches[0]
-                created_labels.append(label)
+                    random_color = generate_random_color()
+                    label = opencti_api_client.label.create(
+                        value=l,
+                        color=random_color,
+                        )
+                    created_labels.append(label)
+                else:
+                    label = matches[0]
+                    created_labels.append(label)
             for ip in ips:
                 ip_count += 1
                 if re.search(ipv6_regex, ip):
@@ -133,7 +121,7 @@ def check_mitre():
                 break
     return mitre
 
-def create_relationships(indicators, tools, SELECTED_TLP):
+def create_relationships(SELECTED_TLP, indicators, tools):
     # Create the tag (if not exists)
     label = opencti_api_client.label.create(
         value="c2-tracker",
@@ -308,15 +296,28 @@ def main():
     api_token = os.getenv("CONNECTOR_IMPORT_C2_TRACKER")
     global opencti_api_client
     opencti_api_client = OpenCTIApiClient(api_url, api_token)
+    # Get TLP ID's
+    TLP_WHITE_CTI = opencti_api_client.marking_definition.read(id=TLP_WHITE["id"])
+    SELECTED_TLP = TLP_WHITE_CTI
+
+    #TLP_GREEN_CTI = opencti_api_client.marking_definition.read(id=TLP_GREEN["id"])
+    #SELECTED_TLP = TLP_GREEN_CTI
+
+    #TLP_AMBER_CTI = opencti_api_client.marking_definition.read(id=TLP_AMBER["id"])
+    #SELECTED_TLP = TLP_AMBER_CTI
+
+    #TLP_RED_CTI = opencti_api_client.marking_definition.read(id=TLP_RED["id"])
+    #SELECTED_TLP = TLP_RED_CTI
+
     current_c2_tracker_ips = get_current_c2_tracker_ips()
     add_c2tracker_ips(current_c2_tracker_ips)
     mitre = check_mitre()
     if mitre:
         indicators = get_current_indicators()
         tools = get_tools()
-        create_relationships(indicators, tools, SELECTED_TLP)
+        create_relationships(SELECTED_TLP, indicators, tools)
         malware = get_malware()
-        create_relationships(indicators, tools=malware, SELECTED_TLP)
+        create_relationships(SELECTED_TLP, indicators, tools=malware)
 
 def loop():
     try:
