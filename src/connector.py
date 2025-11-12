@@ -326,36 +326,6 @@ def loop(opencti_labels, current_c2_tracker_ips, c2_ip_count, ip_count, inserted
         sleep(20)
         loop(opencti_labels, current_c2_tracker_ips, c2_ip_count, ip_count, inserted_ips, SELECTED_TLP)
 
-
-def main():
-    api_url = os.getenv("OPENCTI_BASE_URL") + "/graphql"
-    api_token = os.getenv("CONNECTOR_IMPORT_C2_TRACKER")
-    global opencti_api_client
-    opencti_api_client = OpenCTIApiClient(api_url, api_token)
-    # Get TLP ID's
-    TLP_WHITE_CTI = opencti_api_client.marking_definition.read(id=TLP_WHITE["id"])
-    SELECTED_TLP = TLP_WHITE_CTI
-
-    #TLP_GREEN_CTI = opencti_api_client.marking_definition.read(id=TLP_GREEN["id"])
-    #SELECTED_TLP = TLP_GREEN_CTI
-
-    #TLP_AMBER_CTI = opencti_api_client.marking_definition.read(id=TLP_AMBER["id"])
-    #SELECTED_TLP = TLP_AMBER_CTI
-
-    #TLP_RED_CTI = opencti_api_client.marking_definition.read(id=TLP_RED["id"])
-    #SELECTED_TLP = TLP_RED_CTI
-
-    current_c2_tracker_ips = get_current_c2_tracker_ips()
-    add_c2tracker_ips(current_c2_tracker_ips)
-    mitre = check_mitre()
-    if mitre:
-        indicators = get_current_indicators()
-        tools = get_tools()
-        create_relationships(SELECTED_TLP, indicators, tools)
-        malware = get_malware()
-        create_relationships(SELECTED_TLP, indicators, tools=malware)
-
-
 if __name__ == "__main__":
     api_url = os.getenv("OPENCTI_BASE_URL") + "/graphql"
     api_token = os.getenv("CONNECTOR_IMPORT_C2_TRACKER")
