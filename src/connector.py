@@ -71,10 +71,10 @@ def add_c2tracker_ips(opencti_labels, current_c2_tracker_ips, c2_ip_count, ip_co
                             observableData={
                                 "type": "IPv6-Addr",
                                 "value": f"{ip}",
-                                "x_opencti_description": f"This IP is was recently seen hosting {c2}",
+                                "x_opencti_description": f"This IP was recently seen hosting {c2}",
                                 "x_opencti_score": 100,
                                 "x_opencti_create_indicator":True
-                                }, objectMarking=[TLP_AMBER_CTI["id"]]
+                                }, objectMarking=[SELECTED_TLP["id"]]
                             )
                         # Get the observable ID to add labels
                         observable_id = observable['id']
@@ -98,10 +98,10 @@ def add_c2tracker_ips(opencti_labels, current_c2_tracker_ips, c2_ip_count, ip_co
                             observableData={
                                 "type": "IPv4-Addr",
                                 "value": f"{ip}",
-                                "x_opencti_description": f"This IP is was recently seen hosting {c2}",
+                                "x_opencti_description": f"This IP was recently seen hosting {c2}",
                                 "x_opencti_score": 100,
                                 "x_opencti_create_indicator":True
-                                }, objectMarking=[TLP_AMBER_CTI["id"]]
+                                }, objectMarking=[SELECTED_TLP["id"]]
                             )
                         # Get the observable ID to add labels
                         observable_id = observable['id']
@@ -264,8 +264,6 @@ def get_labels():
         after = data["pagination"]["endCursor"]
         if after:
             print("Listing labels after " + after)
-        #for attempt in range(max_retries):
-            #try:
         data = opencti_api_client.label.list(
             first=50,
             after=after,
@@ -274,10 +272,6 @@ def get_labels():
             orderMode="asc",
         )
         final_labels += data["entities"]
-        #        break
-        #    except:
-        #        print(f"Timeout occurred, retrying... ({attempt + 1})")
-        #        sleep(5)  # Wait before retrying
     
     return final_labels
 
