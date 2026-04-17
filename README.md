@@ -6,8 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/cybersheepdog/opencti-c2-tracker)
 
 
-Ingest data [C2 Tracker Data](https://github.com/montysecurity/C2-Tracker/tree/main/data) into an [OpenCTI](https://github.com/OpenCTI-Platform/opencti) instance.
-
+Ingest [Adversary-Tracker](https://github.com/cybersheepdog/Adversary-Hunter/tree/main/data)data ~~~[C2 Tracker Data](https://github.com/montysecurity/C2-Tracker/tree/main/data)~~~ into an [OpenCTI](https://github.com/OpenCTI-Platform/opencti) instance.
 ## Features
 
 - Import C2 Tracker IOCs as Observablesi in OpenCTI in STIX format to allow for enrichment workflows to take place.
