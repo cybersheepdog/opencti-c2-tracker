@@ -204,7 +204,8 @@ def get_current_c2_tracker_ips():
     # declares a list to hold all the IPs of a tool before being placed into the dictionary
     ips = set()
     tool_regex = "^(.*) IPs$"
-    url = "https://github.com/montysecurity/C2-Tracker/tree/main/data"
+    #url = "https://github.com/montysecurity/C2-Tracker/tree/main/data"
+    url = "https://github.com/cybersheepdog/Adversary-Hunter/tree/main/data"
     request = requests.get(url)
     tools = list(set(re.findall("\"[\w|\s|\d|\.]+IPs\.txt\"", request.text)))
     i = 0
@@ -212,7 +213,8 @@ def get_current_c2_tracker_ips():
         tools[i] = str(tool).strip('"')
         i += 1
     for tool in tools:
-        url = str("https://raw.githubusercontent.com/montysecurity/C2-Tracker/main/data/" + str(tool).replace(" ", "%20"))
+        #url = str("https://raw.githubusercontent.com/montysecurity/C2-Tracker/main/data/" + str(tool).replace(" ", "%20"))
+        url = str("https://raw.githubusercontent.com/cybersheepdog/Adversary-Hunter/main/data/" + str(tool).replace(" ", "%20"))
         request = requests.get(url)
         if tool.endswith('.txt'):
             tool = tool.split(".")[0]
@@ -331,14 +333,14 @@ if __name__ == "__main__":
     api_token = os.getenv("CONNECTOR_IMPORT_C2_TRACKER")
     opencti_api_client = OpenCTIApiClient(api_url, api_token)
     # Get TLP ID's
-    TLP_WHITE_CTI = opencti_api_client.marking_definition.read(id=TLP_WHITE["id"])
-    SELECTED_TLP = TLP_WHITE_CTI
+    #TLP_WHITE_CTI = opencti_api_client.marking_definition.read(id=TLP_WHITE["id"])
+    #SELECTED_TLP = TLP_WHITE_CTI
 
     #TLP_GREEN_CTI = opencti_api_client.marking_definition.read(id=TLP_GREEN["id"])
     #SELECTED_TLP = TLP_GREEN_CTI
 
-    #TLP_AMBER_CTI = opencti_api_client.marking_definition.read(id=TLP_AMBER["id"])
-    #SELECTED_TLP = TLP_AMBER_CTI
+    TLP_AMBER_CTI = opencti_api_client.marking_definition.read(id=TLP_AMBER["id"])
+    SELECTED_TLP = TLP_AMBER_CTI
 
     #TLP_RED_CTI = opencti_api_client.marking_definition.read(id=TLP_RED["id"])
     #SELECTED_TLP = TLP_RED_CTI
