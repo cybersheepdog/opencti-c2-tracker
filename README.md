@@ -4,7 +4,7 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2026.svg?style=flat-square)
 [![GitHub last commit](https://img.shields.io/github/last-commit/cybersheepdog/opencti-c2-tracker.svg?style=flat-square)](https://github.com/cybersheepdog/opencti-c2-tracker/commit/main)
 
-Ingest [Adversary-Tracker](https://github.com/cybersheepdog/Adversary-Hunter/tree/main/data)data ~~~https://github.com/montysecurity/C2-Tracker/tree/main/data~~~ into an [OpenCTI](https://github.com/OpenCTI-Platform/opencti) instance.
+Ingest [Adversary-Tracker](https://github.com/cybersheepdog/Adversary-Hunter/tree/main/data) data ~~[C2-Tracker](https://github.com/montysecurity/C2-Tracker/tree/main/data)~~ into an [OpenCTI](https://github.com/OpenCTI-Platform/opencti) instance.
 ## Features
 
 - Import C2 Tracker IOCs as Observablesi in OpenCTI in STIX format to allow for enrichment workflows to take place.
